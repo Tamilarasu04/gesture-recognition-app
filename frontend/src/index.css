@@ -1,0 +1,55 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+}
+
+@layer components {
+  .glass-card {
+    @apply rounded-2xl border backdrop-blur-xl;
+    border-color: rgba(255, 255, 255, 0.1);
+    background-color: rgba(17, 24, 39, 0.85);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+  }
+
+  .btn-primary {
+    @apply inline-flex items-center justify-center gap-2 rounded-xl px-5 py-2.5 font-semibold text-white transition;
+    @apply focus:outline-none focus:ring-2 disabled:opacity-50;
+    background-color: #6366f1;
+  }
+
+  .btn-primary:hover {
+    background-color: #818cf8;
+  }
+
+  .btn-primary:focus {
+    --tw-ring-color: #6366f1;
+  }
+
+  .btn-secondary {
+    @apply inline-flex items-center justify-center gap-2 rounded-xl border px-5 py-2.5 font-medium text-gray-200 transition;
+    @apply focus:outline-none focus:ring-2 disabled:opacity-50;
+    border-color: rgba(255, 255, 255, 0.15);
+    background-color: #1a2236;
+  }
+
+  .btn-secondary:hover {
+    background-color: #243049;
+  }
+
+  .input-field {
+    @apply w-full rounded-xl border px-4 py-2.5 text-gray-100 placeholder-gray-500;
+    @apply focus:outline-none focus:ring-1;
+    border-color: rgba(255, 255, 255, 0.1);
+    background-color: #0b0f1a;
+  }
+
+  .input-field:focus {
+    border-color: #6366f1;
+    --tw-ring-color: #6366f1;
+  }
+}
