@@ -1,7 +1,5 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
-import { Hands } from '@mediapipe/hands';
-import { Camera } from '@mediapipe/camera_utils';
-import { drawConnectors, drawLandmarks } from '@mediapipe/drawing_utils';
+import { loadMediaPipe } from '../utils/mediapipeLoader';
 
 const HAND_CONNECTIONS = [
   [0, 1], [1, 2], [2, 3], [3, 4],
@@ -40,9 +38,11 @@ export function useMediaPipeHands(videoRef, canvasRef, onLandmarks) {
 
     try {
       setError(null);
+      const { Hands, Camera, drawConnectors, drawLandmarks } = await loadMediaPipe();
+
       const hands = new Hands({
         locateFile: (file) =>
-          `https://cdn.jsdelivr.net/npm/@mediapipe/hands/${file}`,
+          `https://cdn.jsdelivr.net/npm/@mediapipe/hands@0.4.1675469240/${file}`,
       });
 
       hands.setOptions({
@@ -67,15 +67,19 @@ export function useMediaPipeHands(videoRef, canvasRef, onLandmarks) {
         if (results.multiHandLandmarks?.length > 0) {
           const landmarks = results.multiHandLandmarks[0];
           for (const hand of results.multiHandLandmarks) {
-            drawConnectors(ctx, hand, HAND_CONNECTIONS, {
-              color: '#6366f1',
-              lineWidth: 3,
-            });
-            drawLandmarks(ctx, hand, {
-              color: '#a5b4fc',
-              lineWidth: 1,
-              radius: 4,
-            });
+            if (drawConnectors) {
+              drawConnectors(ctx, hand, HAND_CONNECTIONS, {
+                color: '#6366f1',
+                lineWidth: 3,
+              });
+            }
+            if (drawLandmarks) {
+              drawLandmarks(ctx, hand, {
+                color: '#a5b4fc',
+                lineWidth: 1,
+                radius: 4,
+              });
+            }
           }
 
           const normalized = landmarks.map((lm) => ({
